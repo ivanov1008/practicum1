@@ -1,25 +1,66 @@
-class Bird:
-    def __init__(self, name, size):
+class Human:
+    def __init__(self, name):
         self.name = name
-        self.size = size
+    # ответ по умолчанию для всех одинаковый, можно
+    # доверить его родительскому классу
 
-    def describe(self):
-        return f'Размер птицы {self.name} — {self.size}.'
-
-
-class Parrot(Bird):
-    def __init__(self, name, size, color):
-        super().__init__(name)
-        super().__init__(size)
-        self.color = color
+    def answer_question(self, question):
+        print('Очень интересный вопрос! Не знаю.')
 
 
-class Penguin(Bird):
-    def __init__(self, name, size, genus):
-        super().__init__(name)
-        super().__init__(size)
-        self.genus = genus
-  
+class Student(Human):
+    #  метод ask_question() принимает параметр someone:
+    #  это объект, экземпляр класса Curator, Mentor или CodeReviewer,
+    #  которому Student задаёт вопрос;
+    #  параметр question — это просто строка
+    #  имя объекта и текст вопроса задаются при вызове метода ask_questio
+    def ask_question(self, someone, question):
+        # напечатайте на экран вопрос в нужном формате
+        print(f'{someone}, {question}')
+        # запросите ответ на вопрос у someone
+        someone.answer_question(question)
+        print()  # этот print выводит разделительную пустую строку
 
-kesha = Parrot('Ара', 'средний', 'красный')
-kowalski = Penguin('Королевский', 'большой', 'Aptenodytes')
+
+class Curator(Human):
+    def answer_question(self, question):
+        # здесь нужно проверить, пришёл куратору знакомый вопрос или нет
+        # если да - ответить на него
+        # если нет - вызвать метод answer_question() у родительского класса
+        if question == 'мне грустненько, что делать?':
+            print('Держись, всё получится. Хочешь видео с котиками?')
+        else:
+            return super().answer_question(question)
+
+# объявите и реализуйте классы CodeReviewer и Mentor
+class CodeReviewer(Human):
+    def answer_question(self, question):
+        if question == 'что не так с моим проектом?':
+            print('О, вопрос про проект, это я люблю.')
+        else:
+            return super().answer_question(question)
+
+
+class Mentor(Human):
+    def answer_question(self, question):
+        if question == 'мне грустненько, что делать?':
+            print('Отдохни и возвращайся с вопросами по теории.')
+        elif question == 'как устроиться работать питонистом?':
+            print('Сейчас расскажу.')
+        else:
+            return super().answer_question(question)
+
+
+# следующий код менять не нужно, он работает, мы проверяли
+student1 = Student('Тимофей')
+curator = Curator('Марина')
+mentor = Mentor('Ира')
+reviewer = CodeReviewer('Евгений')
+friend = Human('Виталя')
+
+student1.ask_question(curator, 'мне грустненько, что делать?')
+student1.ask_question(mentor, 'мне грустненько, что делать?')
+student1.ask_question(reviewer, 'когда каникулы?')
+student1.ask_question(reviewer, 'что не так с моим проектом?')
+student1.ask_question(friend, 'как устроиться на работу питонистом?')
+student1.ask_question(mentor, 'как устроиться работать питонистом?')
